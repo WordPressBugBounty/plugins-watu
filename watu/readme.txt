@@ -3,7 +3,7 @@ Contributors: prasunsen, wakeop
 Tags: exam, test, quiz, survey, mobile
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 3.4
+Stable tag: 3.4.2
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -168,8 +168,9 @@ If the script defines new objects it might not work in Ajax mode. Try to switch 
 
 == Changelog ==
 
-= Changes in 3.4.1 =
+= Changes in 3.4.2 =
 - Added variable %%TOTAL-ENTRIES%% - The total number of users who submitted this quiz. Multiple entries of the same user are counted as individual entries.
+- Fixed questions sorting issue
 
 = Changes in 3.4 =
 - Added pagination and "per page" selector on the Manage Questions page.
