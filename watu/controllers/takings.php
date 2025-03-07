@@ -6,7 +6,7 @@ function watu_takings($in_shortcode = false, $atts = null) {
 	global $wpdb, $post;
 	
 	if($in_shortcode) {
-		$_GET['exam_id'] = intval(@$atts['quiz_id']);
+		$_GET['exam_id'] = intval($atts['quiz_id'] ?? 0);
 	}
 	
 	// if Namaste! LMS is installed we'll also select courses
@@ -207,10 +207,10 @@ function watu_takings($in_shortcode = false, $atts = null) {
 	}	
 	
 	// this var will be added to links at the view
-	$filters_url="dn=".@$_GET['dn']."&dnf=".@$_GET['dnf']."&email=".@$_GET['email']."&emailf=".
-		@$_GET['emailf']."&ip=".@$_GET['ip']."&ipf=".@$_GET['ipf']."&date=".@$_GET['date'].
-		"&datef=".@$_GET['datef']."&points=".@$_GET['points']."&pointsf=".@$_GET['pointsf'].
-		"&grade_id=".@$_GET['grade_id']."&source_url=".@$_GET['source_url'];		
+	$filters_url="dn=".esc_attr($_GET['dn'] ?? '')."&dnf=".esc_attr($_GET['dnf'] ?? '')."&email=".esc_attr($_GET['email'] ?? '')
+		."&emailf=".esc_attr($_GET['emailf'] ?? '')."&ip=".esc_attr($_GET['ip'] ?? '' )."&ipf=".esc_attr($_GET['ipf'] ?? '')."&date="
+		.esc_attr($_GET['date'] ?? '')."&datef=".esc_attr($_GET['datef'] ?? '')."&points=".esc_attr($_GET['points'] ?? '')
+		."&pointsf=".esc_attr($_GET['pointsf'] ?? '')."&grade_id=".esc_attr($_GET['grade_id'] ?? '')."&source_url=".esc_attr($_GET['source_url'] ?? '');
 		
 	if(!empty($namaste_courses) and !empty($_GET['namaste_course_id'])) {
 		$filters_url .= "&namaste_course_id=".intval($_GET['namaste_course_id']);

@@ -166,7 +166,7 @@ function watu_exam() {
 		
 		do_action('watu_exam_saved', $exam_id);
 		
-		echo "<meta http-equiv='refresh' content='0;url=$wp_redirect' />"; 
+		echo "<meta http-equiv='refresh' content='0;url=$wp_redirect' />";
 		exit;
 	}
 
