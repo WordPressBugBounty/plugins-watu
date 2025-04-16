@@ -19,7 +19,16 @@ function watu_exams() {
 		print '<div id="message" class="updated fade"><p>' . __('Test deleted', 'watu') . '</p></div>';
 	}
 	
-	$ob = empty($_GET['ob']) ? "Q.ID" : esc_attr($_GET['ob']);
+	$allowed_columns = array(
+		'Q.ID',
+		'Q.name',
+		'Q.added_on',
+		'question_count',
+		'taken'
+	);
+
+	$ob = isset($_GET['ob']) && in_array($_GET['ob'], $allowed_columns) ? $_GET['ob'] : 'Q.ID';
+
 	$dir = empty($_GET['dir']) ? "DESC" : $_GET['dir'];
 	if($dir != 'DESC' and $dir != 'ASC') $dir = 'ASC';
 	$odir = ($dir == 'ASC') ? 'DESC' : 'ASC';
