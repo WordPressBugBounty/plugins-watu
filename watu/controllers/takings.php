@@ -9,6 +9,13 @@ function watu_takings($in_shortcode = false, $atts = null) {
 		$_GET['exam_id'] = intval($atts['quiz_id'] ?? 0);
 	}
 	
+	$is_preview_request = ( is_preview() || isset( $_GET['preview'] ) || isset( $_GET['_ppp'] ) );
+
+	// block preview for unauthorized
+    if ( $in_shortcode && $is_preview_request && ! current_user_can( 'manage_options' ) && ! current_user_can( 'watu_manage' ) ) {
+        return '';
+    }
+
 	// if Namaste! LMS is installed we'll also select courses
 	if(class_exists('NamasteLMSCourseModel')) {
 		$_course = new NamasteLMSCourseModel();

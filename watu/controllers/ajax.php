@@ -10,6 +10,8 @@ function watu_already_rated() {
 
 function watu_reorder_questions() {
 	global $wpdb;
+
+	if(!current_user_can('watu_manage') and !current_user_can('manage_options')) return;
 	
 	// fill all question IDs in array in the same way they come from the sortable Ajax call
 	$qids = [-1];

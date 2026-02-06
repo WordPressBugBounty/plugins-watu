@@ -38,7 +38,7 @@ if(!empty($appid)) {
 // select exam
 $exam = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".WATU_EXAMS." WHERE ID=%d", $exam_id));
 if(empty($exam->ID)) return sprintf(__('%s not found.', 'watu'), ucfirst(WATU_QUIZ_WORD));
-$advanced_settings = unserialize(stripslashes($exam->advanced_settings));
+$advanced_settings = unserialize(stripslashes($exam->advanced_settings ?? ''));
 
  // limited total number of attempts for this test?
   if(!empty($advanced_settings['total_attempts_limit'])) {
@@ -292,7 +292,7 @@ if(isset($_REQUEST['do']) and $_REQUEST['do']) { // Quiz Reuslts.
 	$replace_these	= array('%%SCORE%%', '%%MAX-POINTS%%', '%%PERCENTAGE%%', '%%GRADE%%', '%%RATING%%', '%%CORRECT%%', '%%WRONG_ANSWERS%%', '%%QUIZ_NAME%%',	'%%DESCRIPTION%%', '%%GRADE-TITLE%%', '%%GRADE-DESCRIPTION%%', '%%POINTS%%', '%%AVG-POINTS%%', '%%BETTER-THAN%%', '%%EMPTY%%', '%%WRONG%%', '%%AVG-QPOINTS%%', '%%TOTAL%%');
 	$with_these		= array($achieved,		 $max_points,	 $percent_correct,			$grade,		 $rating,		$num_correct,	$num_wrong,	   stripslashes($quiz_details->name), wpautop(stripslashes($quiz_details->description)), $gtitle, $gdescription, $achieved, $avg_points, $better_than, $num_empty, $num_wrong, $avg_qpoints, $num_questions);
 
-	if(strstr($exam->final_screen, '%%TOTAL-ENTRIES%%') or strstr($exam->email_output, '%%TOTAL-ENTRIES%%')) {
+	if(strstr($exam->final_screen ?? '', '%%TOTAL-ENTRIES%%') or strstr($exam->email_output ?? '', '%%TOTAL-ENTRIES%%')) {
 		$replace_these[] = '%%TOTAL-ENTRIES%%';
 		$total_entries = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".WATU_TAKINGS."
 			WHERE exam_id=%d", $exam->ID));

@@ -66,7 +66,7 @@
 			<div><label><?php _e('Submitted from page:', 'watu')?></label> <select name="source_url">
 			<option value=""><?php _e('Any source', 'watu')?></option>
 			<?php foreach($source_urls as $source_url):?>
-				<option value="<?php echo $source_url->source_url?>" <?php if(!empty($_GET['source_url']) and $_GET['source_url'] == $source_url->source_url) echo 'selected'?>><?php echo $source_url->source_url?></option>
+				<option value="<?php echo esc_url_raw($source_url->source_url)?>" <?php if(!empty($_GET['source_url']) and $_GET['source_url'] == $source_url->source_url) echo 'selected'?>><?php echo esc_url_raw($source_url->source_url)?></option>
 			<?php endforeach;?>		
 			</select></div>
 		<?php endif;?>
@@ -104,7 +104,7 @@
 				<td><?php echo $taking->user_id ? '<a href="user-edit.php?user_id='.$taking->user_id.'">'.$taking->user_login.'</a>': _e('N/a', 'watu');?>
 				<?php if(!empty($taking->email) and $show_email) echo "<br>".$taking->email;?></td>
 				<td><?php echo date_i18n(get_option('date_format'), strtotime($taking->date));
-				if(!empty($taking->source_url)) printf('<br>'.__('Source: %s', 'watu'), $taking->source_url);?></td>
+				if(!empty($taking->source_url)) printf('<br>'.__('Source: %s', 'watu'), esc_url_raw($taking->source_url));?></td>
 				<?php if($show_points):?><td><?php echo $taking->points?></td><?php endif;?>
 				<?php if($show_percent):?><td><?php printf(__('%d%%', 'watu'), $taking->percent_correct)?>	<br>
 			<?php printf(__('%d correct, %d wrong, and %d unanswered', 'watu'), $taking->num_correct, $taking->num_wrong, $taking->num_empty);?></td><?php endif;?>
