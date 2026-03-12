@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class WatuExam {
 	// keep the questions after submit in the same order they were show to the user
 	// and only the questions that were shown
@@ -9,13 +11,15 @@ class WatuExam {
 		foreach($questions as $question) $qids[] = $question->ID;		
 		
 		// all answers in the quiz
-		$all_answers = $wpdb->get_results("SELECT ID,answer,correct, point, question_id 
+		$qids = array_map('intval', $qids);
+		$all_answers = $wpdb->get_results("SELECT ID,answer,correct, point, question_id
 			FROM ".WATU_ANSWERS." WHERE question_id IN (" . implode(',', $qids) . ")");
 		$new_answers = array();
-				
-		// reorder the answers accordingly to POST info		
+
+		// reorder the answers accordingly to POST info
 		if(!empty($_POST['answer_ids'])) {
 			foreach($_POST['answer_ids'] as $aorder) {
+				$aorder = intval($aorder);
 				foreach($all_answers as $answer) {
 					if($answer->ID == $aorder) $new_answers[] = $answer;
 				} // end foreach answer

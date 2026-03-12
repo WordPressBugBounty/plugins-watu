@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class WatuQuestion {
 	// calculate points, correctness and return the class
 	static function calculate($question, $ans, $ansArr, $correct, $class) {

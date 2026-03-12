@@ -1,6 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 // ajax calls
-function watu_submit() {	
+function watu_submit() {
 	require_once(WATU_PATH."/controllers/show_exam.php");
 }
 
@@ -13,6 +15,9 @@ function watu_reorder_questions() {
 
 	if(!current_user_can('watu_manage') and !current_user_can('manage_options')) return;
 	
+	// Verify nonce for CSRF protection
+	if(!check_admin_referer('watu_reorder_questions', 'watu_nonce')) return;
+
 	// fill all question IDs in array in the same way they come from the sortable Ajax call
 	$qids = [-1];
 	$questions = $_POST['questions'] ?? [];
@@ -24,9 +29,9 @@ function watu_reorder_questions() {
 	}
 	//print_r($qids);
 	// find the min sort order for the group
-	$min_sort_order = $wpdb->get_var($wpdb->prepare("SELECT MIN(sort_order) FROM ".WATU_QUESTIONS." 
+	$min_sort_order = $wpdb->get_var($wpdb->prepare("SELECT MIN(sort_order) FROM ".WATU_QUESTIONS."
 		WHERE exam_id=%d AND ID IN (".implode(',', $qids).")", $exam_id));
-	
+
 	// go through the questions and increment the min for each of them
 	foreach($qids as $qid) {
 		if($qid == -1) continue;

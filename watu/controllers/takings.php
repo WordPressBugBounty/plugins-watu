@@ -146,11 +146,13 @@ function watu_takings($in_shortcode = false, $atts = null) {
 	if(!empty($_GET['namaste_course_id']) and !empty($namaste_courses)) {
 		// let's select here as a subquery might be slower (is it?)
 		$namaste_uids = array(-1);
-		$namaste_uids1 = $wpdb->get_results($wpdb->prepare("SELECT user_id FROM ".NAMASTE_STUDENT_COURSES." 
+		$namaste_uids1 = $wpdb->get_results($wpdb->prepare("SELECT user_id FROM ".NAMASTE_STUDENT_COURSES."
 			WHERE course_id=%d AND (status='enrolled' OR status='completed')", intval($_GET['namaste_course_id'])));
-		foreach($namaste_uids1 as $nu) $namaste_uids[] = $nu->user_id;
-		$namaste_uids_sql = implode(",", $namaste_uids);
-		$filters[] = " tT.user_id IN ($namaste_uids_sql) ";
+		foreach($namaste_uids1 as $nu) $namaste_uids[] = intval($nu->user_id);
+		
+		// Use prepared statement for IN clause to prevent SQL injection
+		$namaste_placeholders = implode(',', array_fill(0, count($namaste_uids), '%d'));
+		$filters[] = $wpdb->prepare(" tT.user_id IN ($namaste_placeholders) ", $namaste_uids);
 	}
 		
 	// construct filter & join SQLs

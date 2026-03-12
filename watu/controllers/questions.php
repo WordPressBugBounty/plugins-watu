@@ -95,24 +95,30 @@ function watu_questions() {
 	// mass delete questions
 	if(!empty($_POST['mass_delete']) and check_admin_referer('watu_questions')) {
 		$qids = is_array($_POST['qids']) ? watu_int_array($_POST['qids']) : array(0);
-		$qid_sql = implode(", ", $qids);
 		
-		$wpdb->query("DELETE FROM ".WATU_QUESTIONS." WHERE ID IN ($qid_sql)");
-		$wpdb->query("DELETE FROM ".WATU_ANSWERS." WHERE question_id IN ($qid_sql)");		
+		if(!empty($qids)) {
+			$placeholders = implode(',', array_fill(0, count($qids), '%d'));
+			$wpdb->query($wpdb->prepare("DELETE FROM ".WATU_ANSWERS." WHERE question_id IN ($placeholders)", $qids));
+			$wpdb->query($wpdb->prepare("DELETE FROM ".WATU_QUESTIONS." WHERE ID IN ($placeholders)", $qids));
+		}
 	}
-	
+
 	// mass delete questions
 	if(!empty($_POST['mass_update']) and check_admin_referer('watu_questions')) {
 		$qids = is_array($_POST['qids']) ? watu_int_array($_POST['qids']) : array(0);
-		$qid_sql = implode(", ", $qids);
-		
+
 		// constructing SQL this way because we may add new properties in the next version
 		$is_required_sql = '';
+		$params = array();
 		if($_POST['is_required'] != -1) {
-			$is_required_sql = $wpdb->prepare(", is_required=%d", intval($_POST['is_required']));
+			$is_required_sql = ", is_required=%d";
+			$params[] = intval($_POST['is_required']);
 		}
-		
-		$wpdb->query("UPDATE ".WATU_QUESTIONS." SET ID=ID $is_required_sql WHERE ID IN ($qid_sql)");		
+
+		if(!empty($qids)) {
+			$placeholders = implode(',', array_fill(0, count($qids), '%d'));
+			$wpdb->query($wpdb->prepare("UPDATE ".WATU_QUESTIONS." SET ID=ID $is_required_sql WHERE ID IN ($placeholders)", array_merge($params, $qids)));
+		}
 	}
 	
 	$filter_sql = $filter_params = '';

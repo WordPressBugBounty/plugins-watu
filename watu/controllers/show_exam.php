@@ -308,12 +308,12 @@ if(isset($_REQUEST['do']) and $_REQUEST['do']) { // Quiz Reuslts.
 				WHERE ip=%s AND user_id=%d AND exam_id=%d AND points=%d AND grade_id=%d AND start_time=%s",
 				'', $user_ID, $exam->ID, $achieved, $g_id, $_POST['start_time']));				
 		}		
-		if(empty($taking_id)) {			
-			$source_url = empty($exam->save_source_url) ? '' : $_SERVER['HTTP_REFERER'];
-			$wpdb->query($wpdb->prepare("INSERT INTO ".WATU_TAKINGS." SET exam_id=%d, user_id=%d, ip=%s, date=CURDATE(), 
+		if(empty($taking_id)) {
+			$source_url = empty($exam->save_source_url) ? '' : esc_url_raw($_SERVER['HTTP_REFERER']);
+			$wpdb->query($wpdb->prepare("INSERT INTO ".WATU_TAKINGS." SET exam_id=%d, user_id=%d, ip=%s, date=CURDATE(),
 				points=%d, grade_id=%d, result=%s, snapshot='', start_time=%s, email=%s, percent_correct=%d, source_url=%s,
-				num_correct=%d, num_wrong=%d, num_empty=%d", 
-				$exam_id, $uid, '', $achieved, $g_id, $grade, @$_POST['start_time'], 
+				num_correct=%d, num_wrong=%d, num_empty=%d",
+				$exam_id, $uid, '', $achieved, $g_id, $grade, @$_POST['start_time'],
 				$taker_email, $percent, $source_url, $num_correct, $num_wrong, $num_empty));
 			$taking_id = $wpdb->insert_id;
 		}

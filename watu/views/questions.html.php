@@ -192,11 +192,11 @@ jQuery(function(){
 function WatuReorderQuestions() {
 	// to avoid sending many unnecessary queries to the server
 	var questions = jQuery('#watuQuestionsList').sortable("toArray");
-		
-	data = {"action":'watu_reorder_questions',  'exam_id' : <?php echo intval($_GET['quiz']);?>, 'questions' : questions };		
-		
+
+	data = {"action":'watu_reorder_questions',  'exam_id' : <?php echo intval($_GET['quiz']);?>, 'questions' : questions, 'watu_nonce': watu_i18n.watu_nonce };
+
 	jQuery.post("<?php echo admin_url( 'admin-ajax.php' ); ?>", data, function(msg){
-		jQuery('#watuSaveOrderBtn').hide();	
+		jQuery('#watuSaveOrderBtn').hide();
 		jQuery('#watuSaveOrderBtnMsg').show();
 	});
 }

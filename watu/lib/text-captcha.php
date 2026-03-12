@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class WatuTextCaptcha {
 	// verify the captcha
 	static function verify($question, $answer) {

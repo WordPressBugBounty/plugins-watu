@@ -40,7 +40,6 @@ function watu_exams() {
 	if(!empty($_GET['title'])) {
 		$get_title = sanitize_text_field($_GET['title']);
 		$filter_sql .= $wpdb->prepare(" AND Q.name LIKE %s ", '%'.$wpdb->esc_like($get_title).'%');
-		echo $filter_sql;
 		$filter_params .= "&title=".esc_attr($get_title);
 	}
 	
