@@ -3,7 +3,7 @@ Contributors: prasunsen, wakeop
 Tags: exam, test, quiz, survey, mobile
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 3.4.7
+Stable tag: 3.4.8
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

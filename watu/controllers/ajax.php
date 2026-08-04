@@ -3,6 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 // ajax calls
 function watu_submit() {
+	if (!check_ajax_referer('watu_submit_nonce', 'watu_nonce', false)) {
+		wp_die(__('Security check failed.', 'watu'), 403);
+	}
 	require_once(WATU_PATH."/controllers/show_exam.php");
 }
 

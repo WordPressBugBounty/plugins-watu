@@ -152,7 +152,8 @@ Watu.submitResult = function(e) {
 	}
  
 	var data = {action:'watu_submit', 'do': 'show_exam_result', quiz_id: exam_id, 
-	'question_id[]': Watu.qArr, 'answer_ids[]' : answer_ids };
+	'question_id[]': Watu.qArr, 'answer_ids[]' : answer_ids,
+	'watu_nonce': (typeof watu_i18n !== 'undefined' && watu_i18n.watu_submit_nonce) ? watu_i18n.watu_submit_nonce : (jQuery('#quiz-' + this.exam_id + ' input[name=watu_nonce]').val() || jQuery('input[name=watu_nonce]').val()) };
 	
 	if(jQuery('#watuTakerEmail').length) {
 		var emailVal = jQuery('#watuTakerEmail').val();

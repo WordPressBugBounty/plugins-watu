@@ -1,6 +1,7 @@
 <div id="watu_quiz" class="quiz-area <?php if($single_page) echo 'single-page-quiz'; ?>">
 <?php if(!empty($exam->description)):?><p><?php echo apply_filters(WATU_CONTENT_FILTER,wpautop(stripslashes($exam->description)));?></p><?php endif;?>
 <form action="" method="post" class="quiz-form <?php if(!empty($advanced_settings['design_theme']) and $advanced_settings['design_theme'] == 'buttons') echo 'watu-button-style'?>" id="quiz-<?php echo $exam_id?>" <?php if(!empty($exam->no_ajax)):?>onsubmit="return Watu.submitResult(this)"<?php endif;?>>
+<?php wp_nonce_field('watu_submit_nonce', 'watu_nonce'); ?>
 <?php
 if(!empty($exam->notify_user) and empty($user_ID)):?>
 	<p class="watu_taker_email"><?php _e('Please enter your email:', 'watu')?> <input type="text" name="watu_taker_email" id="watuTakerEmail"></p>
